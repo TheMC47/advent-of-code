@@ -15,13 +15,11 @@ solve1 xs =
   let [lower, higher, [c], _, rest] = splitOneOf "- :" xs
   in  policy1 (read lower) (read higher) c rest
 
+count :: Eq a => a -> [a] -> Int
+count x = length . filter (==x)
+
 policy1 :: Int -> Int -> Char -> String -> Bool
-policy1 lower higher c = go 0
- where
-  go acc [] = lower <= acc && acc <= higher
-  go acc (x : xs) | acc > higher = False
-                  | c == x       = go (acc + 1) xs
-                  | otherwise    = go acc xs
+policy1 lower higher c xs = let acc = count c xs in lower <= acc && acc <= higher
 
 day2_1 :: IO ()
 day2_1 = day2 solve1
