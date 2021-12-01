@@ -26,6 +26,7 @@ source-repository head
 library
   exposed-modules:
       Day1
+      Miloud
   other-modules:
       Paths_AoC2021
   hs-source-dirs:
