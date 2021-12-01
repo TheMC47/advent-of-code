@@ -1,5 +1,4 @@
 {-# LANGUAGE LambdaCase #-}
-{-# LANGUAGE TypeApplications #-}
 {-# LANGUAGE ViewPatterns #-}
 
 module Main where
@@ -17,7 +16,7 @@ days = [day1]
 main :: IO ()
 main =
   getArgs >>= \case
-    (readMaybe @Int -> Just n) : (headMaybe -> fromMaybe "" -> suff)
+    (readMaybe -> Just n) : (headMaybe -> fromMaybe "" -> suff)
       | Just solver <- (days <!!> (n - 1)) ->
           openFile ("inputs/day" <> show n <> suff) ReadMode
           >>= hGetContents
