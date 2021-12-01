@@ -12,7 +12,7 @@ import System.IO
 import Text.Read
 
 days :: [String -> String]
-days = [solveDay1]
+days = [day1]
 
 main :: IO ()
 main =
