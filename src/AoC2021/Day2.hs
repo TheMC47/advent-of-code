@@ -5,7 +5,7 @@ module AoC2021.Day2 where
 import Miloud
 
 day2_1 :: String -> String
-day2_1 = show . uncurry (*) . foldl go (0, 0) . map words . lines
+day2_1 = day2 (uncurry (*)) go (0, 0)
   where
     go :: (Int, Int) -> [String] -> (Int, Int)
     go (h, v) [dir, read -> n]
@@ -15,11 +15,7 @@ day2_1 = show . uncurry (*) . foldl go (0, 0) . map words . lines
     go _ _ = undefined
 
 day2_2 :: String -> String
-day2_2 =
-  show . uncurry3 (const .: (*))
-    . foldl go (0, 0, 0)
-    . map words
-    . lines
+day2_2 = day2 (uncurry3 (const .: (*))) go (0, 0, 0)
   where
     go :: (Int, Int, Int) -> [String] -> (Int, Int, Int)
     go (h, v, a) [dir, read -> n]
@@ -27,3 +23,6 @@ day2_2 =
       | dir == "up" = (h, v, a - n)
       | dir == "down" = (h, v, a + n)
     go _ _ = undefined
+
+day2 :: Show c => (b -> c) -> (b -> [String] -> b) -> b -> String -> String
+day2 aggregator folder z = show . aggregator . foldl folder z . map words . lines
