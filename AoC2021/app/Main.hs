@@ -11,16 +11,19 @@ import System.Environment
 import System.IO
 import Text.Read
 
-days :: [String -> String]
-days = [day1, day2]
+days :: [[String -> String]]
+days = [[day1], [day2_1, day2_2]]
 
 main :: IO ()
 main =
-  -- TODO maybe parts?
   getArgs >>= \case
-    (readMaybe -> Just n) : (headMaybe -> fromMaybe "" -> suff)
-      | Just solver <- (days <!!> (n - 1)) ->
-        openFile ("inputs/day" <> show n <> suff) ReadMode
-          >>= hGetContents
-          >>= print . solver
+    (readMaybe -> Just day) : (readMaybe -> Just part) : (headMaybe -> fromMaybe "" -> suff)
+      | Just solver <- ((<!!> (part - 1)) =<< (days <!!> (day - 1))) -> run solver day suff
+    (readMaybe -> Just day) : (headMaybe -> fromMaybe "" -> suff)
+      | Just solver <- (headMaybe =<< (days <!!> (day - 1))) -> run solver day suff
     _ -> print "Bye"
+  where
+    run solver day suff =
+      openFile ("inputs/day" <> show day <> suff) ReadMode
+        >>= hGetContents
+        >>= print . solver

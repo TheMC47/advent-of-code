@@ -4,9 +4,6 @@ module Day2 where
 
 import Miloud
 
-day2 :: String -> String
-day2 = day2_2
-
 day2_1 :: String -> String
 day2_1 = show . uncurry (*) . foldl go (0, 0) . map words . lines
   where
