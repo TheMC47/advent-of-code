@@ -24,5 +24,5 @@ day2_2 = day2 (uncurry3 (const .: (*))) go (0, 0, 0)
       | dir == "down" = (h, v, a + n)
     go _ _ = undefined
 
-day2 :: Show c => (b -> c) -> (b -> [String] -> b) -> b -> String -> String
+day2 :: (b -> Int) -> (b -> [String] -> b) -> b -> String -> String
 day2 aggregator folder z = show . aggregator . foldl folder z . map words . lines
