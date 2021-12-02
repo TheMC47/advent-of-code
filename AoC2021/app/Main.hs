@@ -16,6 +16,7 @@ days = [day1, day2]
 
 main :: IO ()
 main =
+  -- TODO maybe parts?
   getArgs >>= \case
     (readMaybe -> Just n) : (headMaybe -> fromMaybe "" -> suff)
       | Just solver <- (days <!!> (n - 1)) ->
