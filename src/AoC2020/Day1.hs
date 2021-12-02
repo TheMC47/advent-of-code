@@ -1,23 +1,23 @@
-module Day1 where
+module AoC2020.Day1 where
 
-import           Data.List
+import Data.List
 
 -- Part 1
 
 -- O ( n log n ) by sorting the input and iterating
 solve1 :: Int -> [Int] -> Int
 solve1 target input = let (f, s) = go sorted (reverse sorted) in f * s
- where
-  go :: [Int] -> [Int] -> (Int, Int)
-  go (x : xs) (y : ys) | x + y == target = (x, y)
-                       | x + y < target  = go xs (y : ys)
-                       | otherwise       = go (x : xs) ys
-  go _ _ = (0, 0)
-  sorted = sort input
+  where
+    go :: [Int] -> [Int] -> (Int, Int)
+    go (x : xs) (y : ys)
+      | x + y == target = (x, y)
+      | x + y < target = go xs (y : ys)
+      | otherwise = go (x : xs) ys
+    go _ _ = (0, 0)
+    sorted = sort input
 
 day1_1 :: IO ()
 day1_1 = interact (show . solve1 2020 . map read . lines)
-
 
 -- Part 2
 

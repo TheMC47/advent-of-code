@@ -4,14 +4,14 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 
-name:           AoC2021
+name:           AoC
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/githubuser/AoC2021#readme>
-homepage:       https://github.com/githubuser/AoC2021#readme
-bug-reports:    https://github.com/githubuser/AoC2021/issues
-author:         Author name here
-maintainer:     example@example.com
-copyright:      2021 Author name here
+description:    Please see the README on GitHub at <https://github.com/TheMC47/advent-of-code-haskell#readme>
+homepage:       https://github.com/TheMC47/advent-of-code-haskell#readme
+bug-reports:    https://github.com/TheMC47/advent-of-code-haskell/issues
+author:         Yecine Megdiche
+maintainer:     yecine.megdiche@gmail.com
+copyright:      2021 Yecine Megdiche
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
@@ -21,42 +21,51 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/AoC2021
+  location: https://github.com/TheMC47/advent-of-code-haskell
 
 library
   exposed-modules:
-      Day1
-      Day2
+      AoC
+      AoC2020
+      AoC2020.Day1
+      AoC2020.Day2
+      AoC2020.Day3
+      AoC2021
+      AoC2021.Day1
+      AoC2021.Day2
       Miloud
   other-modules:
-      Paths_AoC2021
+      Paths_AoC
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+    , split
   default-language: Haskell2010
 
-executable AoC2021-exe
+executable AoC-exe
   main-is: Main.hs
   other-modules:
-      Paths_AoC2021
+      Paths_AoC
   hs-source-dirs:
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      AoC2021
+      AoC
     , base >=4.7 && <5
+    , split
   default-language: Haskell2010
 
-test-suite AoC2021-test
+test-suite AoC-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      Paths_AoC2021
+      Paths_AoC
   hs-source-dirs:
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      AoC2021
+      AoC
     , base >=4.7 && <5
+    , split
   default-language: Haskell2010

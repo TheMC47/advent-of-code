@@ -1,6 +1,6 @@
 {-# LANGUAGE ViewPatterns #-}
 
-module Day2 where
+module AoC2021.Day2 where
 
 import Miloud
 

@@ -1,4 +1,4 @@
-module Day1 where
+module AoC2021.Day1 where
 
 countIncreasing :: [Int] -> Int
 countIncreasing xs = length . filter (< 0) $ zipWith (-) xs (tail xs)
