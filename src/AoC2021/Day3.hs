@@ -1,5 +1,6 @@
 module AoC2021.Day3 where
 
+import           Control.Monad
 import           Data.List
 import           Miloud
 
@@ -31,16 +32,13 @@ day3_1 =
 
 day3_2 :: String -> String
 day3_2 =
-    show
-        . uncurry (*)
-        . (\xs -> (solve_3_2 '0' 0 xs, solve_3_2 '1' 0 xs))
-        . lines
+    show . uncurry (*) . uncurry (liftM2 (,)) (solve_3_2 0 <$$> ('0', '1')) . lines
 
-solve_3_2 :: Char -> Int -> [String] -> Int
-solve_3_2 c pos xs = case xs' of
+solve_3_2 :: Int -> Char -> [String] -> Int
+solve_3_2 pos c xs = case xs' of
     [x] -> fromBin x
     []  -> 0
-    _   -> solve_3_2 c (pos + 1) xs'
+    _   -> solve_3_2 (pos + 1) c xs'
   where
     crit = bitCrit c (countBits $ map (!! pos) xs)
     xs'  = filter (crit . (!! pos)) xs
