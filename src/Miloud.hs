@@ -1,5 +1,7 @@
 module Miloud where
 
+import Data.Map
+
 headMaybe :: [a] -> Maybe a
 headMaybe [] = Nothing
 headMaybe (x : _) = Just x
@@ -17,3 +19,6 @@ uncurry3 f (a, b, c) = f a b c
 
 (<$$>) :: (a -> b) -> (a, a) -> (b, b)
 f <$$> (x, x') = (f x, f x')
+
+updateDefault :: Ord k => (a -> a) -> a -> k -> Map k a -> Map k a
+updateDefault f b = alter (maybe (Just b) (Just . f))

@@ -7,6 +7,7 @@ import           Data.List
 import           Data.List.Split
 
 import qualified Data.Map                      as M
+import           Miloud
 
 type Point = (Int, Int)
 
@@ -47,7 +48,7 @@ markInput :: Input -> Grid
 markInput I {..} = foldl mark grid ls
 
 mark :: Grid -> Line -> Grid
-mark = (. spanLine) . foldl (flip (M.alter (maybe (Just 1) (Just . (+ 1)))))
+mark = (. spanLine) . foldl (flip (updateDefault (+ 1) 1))
 
 spanLine :: Line -> [Point]
 spanLine l@(L (x1, y1) (x2, y2)) = map
