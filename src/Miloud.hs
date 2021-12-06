@@ -1,15 +1,14 @@
 module Miloud where
 
-import Data.Map
+import           Data.Map
 
 headMaybe :: [a] -> Maybe a
-headMaybe [] = Nothing
+headMaybe []      = Nothing
 headMaybe (x : _) = Just x
 
 (<!!>) :: [a] -> Int -> Maybe a
-xs <!!> i
-  | i < length xs = Just $ xs !! i
-  | otherwise = Nothing
+xs <!!> i | i < length xs = Just $ xs !! i
+          | otherwise     = Nothing
 
 uncurry3 :: (a -> b -> c -> d) -> (a, b, c) -> d
 uncurry3 f (a, b, c) = f a b c
@@ -22,3 +21,7 @@ f <$$> (x, x') = (f x, f x')
 
 updateDefault :: Ord k => (a -> a) -> a -> k -> Map k a -> Map k a
 updateDefault f b = alter (maybe (Just b) (Just . f))
+
+
+pop :: Ord k => k -> Map k a -> (Maybe a, Map k a)
+pop k m = (Data.Map.lookup k m, delete k m)
