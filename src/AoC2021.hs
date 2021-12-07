@@ -7,8 +7,16 @@ import           AoC2021.Day3
 import           AoC2021.Day4
 import           AoC2021.Day5
 import           AoC2021.Day6
+import           AoC2021.Day7
 
 aoc2021 :: AoC
 aoc2021 = AoC
   2021
-  [[day1_1, day1_2], [day2_1, day2_2], [day3_1, day3_2], day4s, day5s, day6s]
+  [ [day1_1, day1_2]
+  , [day2_1, day2_2]
+  , [day3_1, day3_2]
+  , day4s
+  , day5s
+  , day6s
+  , day7s
+  ]
