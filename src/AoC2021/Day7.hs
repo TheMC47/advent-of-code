@@ -1,6 +1,7 @@
 module AoC2021.Day7 where
 
 
+import           Control.Monad
 import           Data.List.Split
 
 day7s :: [String -> String]
@@ -12,7 +13,8 @@ alignAt f n = sum . map (f . abs . subtract n)
 
 
 solve :: (Int -> Int) -> [Int] -> Int
-solve f xs = minimum $ map (flip (alignAt f) xs) [minimum xs .. maximum xs]
+solve f xs =
+    minimum . map (flip (alignAt f) xs) $ liftM2 enumFromTo minimum maximum xs
 
 
 day7 :: (Int -> Int) -> String -> String
