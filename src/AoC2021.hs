@@ -8,6 +8,7 @@ import           AoC2021.Day4
 import           AoC2021.Day5
 import           AoC2021.Day6
 import           AoC2021.Day7
+import           AoC2021.Day8
 
 aoc2021 :: AoC
 aoc2021 = AoC
@@ -19,4 +20,5 @@ aoc2021 = AoC
   , day5s
   , day6s
   , day7s
+  , [day8_1, day8_2]
   ]
