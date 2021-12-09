@@ -39,6 +39,7 @@ library
       AoC2021.Day6
       AoC2021.Day7
       AoC2021.Day8
+      AoC2021.Day9
       Miloud
   other-modules:
       Paths_AoC
@@ -48,6 +49,7 @@ library
       base >=4.7 && <5
     , containers
     , split
+    , vector
   default-language: Haskell2010
 
 executable AoC-exe
@@ -62,6 +64,7 @@ executable AoC-exe
     , base >=4.7 && <5
     , containers
     , split
+    , vector
   default-language: Haskell2010
 
 test-suite AoC-test
@@ -77,4 +80,5 @@ test-suite AoC-test
     , base >=4.7 && <5
     , containers
     , split
+    , vector
   default-language: Haskell2010

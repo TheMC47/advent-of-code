@@ -1,6 +1,6 @@
 module Miloud where
 
-import           Data.Map
+import           Data.Map                hiding ( map )
 
 headMaybe :: [a] -> Maybe a
 headMaybe []      = Nothing
@@ -25,3 +25,6 @@ updateDefault f b = alter (maybe (Just b) (Just . f))
 
 pop :: Ord k => k -> Map k a -> (Maybe a, Map k a)
 pop k m = (Data.Map.lookup k m, delete k m)
+
+chunkify :: [a] -> [[a]]
+chunkify = map (: [])
