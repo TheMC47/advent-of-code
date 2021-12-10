@@ -3,6 +3,7 @@ module AoC2021.Day10 where
 
 import           Data.List
 import           Miloud
+
 open :: Char -> Bool
 open = (`elem` "([<{")
 
@@ -12,40 +13,31 @@ close '[' = ']'
 close '{' = '}'
 close '<' = '>'
 
-solveCorrupted :: String -> Int
-solveCorrupted = solve' []
+solve :: String -> (Int, Int)
+solve = solve' []
   where
-    solve' _ []                       = 0
+    solve' [] []                      = (0, 0)
+    solve' ys []                      = (0, calcPointsIncomplete ys 0)
     solve' ys (c : cs) | open c       = solve' (close c : ys) cs
     solve' (y : ys) (c : cs) | y == c = solve' ys cs
-    solve' _ (c : cs)                 = points c
-    points :: Char -> Int
-    points ')' = 3
-    points ']' = 57
-    points '}' = 1197
-    points '>' = 25137
+    solve' _ (c : cs)                 = (pointsCorrupted c, 0)
 
-solveIncomplete :: String -> Int
-solveIncomplete = solve' []
-  where
-    solve' [] []                      = 0
-    solve' ys []                      = calcPoints ys 0
-    solve' ys (c : cs) | open c       = solve' (close c : ys) cs
-    solve' (y : ys) (c : cs) | y == c = solve' ys cs
-    solve' _ (c : cs)                 = 0
+    calcPointsIncomplete [] n = n
+    calcPointsIncomplete (y : ys) n =
+        calcPointsIncomplete ys (5 * n + pointsIncomplete y)
 
-    calcPoints []       n = n
-    calcPoints (y : ys) n = calcPoints ys (5 * n + points y)
+    pointsCorrupted ')' = 3
+    pointsCorrupted ']' = 57
+    pointsCorrupted '}' = 1197
+    pointsCorrupted '>' = 25137
 
-    points :: Char -> Int
-    points ')' = 1
-    points ']' = 2
-    points '}' = 3
-    points '>' = 4
+    pointsIncomplete ')' = 1
+    pointsIncomplete ']' = 2
+    pointsIncomplete '}' = 3
+    pointsIncomplete '>' = 4
 
 day10_1 :: String -> String
-day10_1 = show . sum . map solveCorrupted . lines
-
+day10_1 = show . sum . map (fst . solve) . lines
 
 day10_2 :: String -> String
-day10_2 = show . median . filter (0 /=) . map solveIncomplete . lines
+day10_2 = show . median . filter (0 /=) . map (snd . solve) . lines
