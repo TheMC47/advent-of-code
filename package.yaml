@@ -25,6 +25,7 @@ dependencies:
 - containers
 - vector
 - timeit
+- mtl
 
 library:
   source-dirs: src
