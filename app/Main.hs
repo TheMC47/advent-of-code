@@ -29,4 +29,4 @@ main = go aoc2021
   run year solver day suff =
     openFile ("inputs/" <> show year <> "/day" <> show day <> suff) ReadMode
       >>= hGetContents
-      >>=  timeIt . print . solver
+      >>=  timeIt . putStrLn . solver
