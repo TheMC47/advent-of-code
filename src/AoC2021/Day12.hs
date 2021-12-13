@@ -10,7 +10,8 @@ import           Data.Char
 import           Data.Functor
 import           Data.List.Split
 import qualified Data.Map                      as M
-import           Data.Set                hiding ( foldr
+import           Data.Set                hiding ( filter
+                                                , foldr
                                                 , map
                                                 )
 import           Miloud
@@ -82,3 +83,32 @@ allPaths = fst . liftM2 runDFS visit singleton "start"
 
 day12_1 :: String -> String
 day12_1 = show . length . allPaths . parseInput
+type Seen' = M.Map Node Int
+
+see' :: Node -> Seen' -> Seen'
+see' n s | small n   = updateDefault (+ 1) 1 n s
+         | otherwise = s
+
+seen' :: Node -> Seen' -> Bool
+seen' n s | n == "start" = True
+          | countN == 0  = False
+          | countN >= 1  = not (M.null twice)
+          | otherwise    = False
+  where
+    twice  = M.filter (== 2) s
+    countN = M.findWithDefault 0 n s
+
+
+visit' :: Node -> Seen' -> Graph -> [[Node]]
+visit' n s g | n == "end" = [["end"]]
+             | otherwise  = xs
+  where
+    s'   = see' n s
+    adjs = filter (not . (`seen'` s')) $ adj n g
+    xs   = map (n :) $ concatMap (\u -> visit' u s' g) adjs
+
+allPaths' :: Graph -> [[Node]]
+allPaths' = visit' "start" M.empty
+
+day12_2 :: String -> String
+day12_2 = show . length . allPaths' . parseInput
