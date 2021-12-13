@@ -33,3 +33,8 @@ chunkify = map (: [])
 
 median :: Ord a => [a] -> a
 median xs = (!! (length xs `div` 2)) $ sort xs
+
+
+(?) :: Bool -> a -> a -> a
+(c ? a) b | c         = a
+          | otherwise = b
