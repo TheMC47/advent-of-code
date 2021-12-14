@@ -26,6 +26,7 @@ dependencies:
 - vector
 - timeit
 - mtl
+- multiset
 
 library:
   source-dirs: src

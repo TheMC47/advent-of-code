@@ -36,6 +36,7 @@ library
       AoC2021.Day11
       AoC2021.Day12
       AoC2021.Day13
+      AoC2021.Day14
       AoC2021.Day2
       AoC2021.Day3
       AoC2021.Day4
@@ -53,6 +54,7 @@ library
       base >=4.7 && <5
     , containers
     , mtl
+    , multiset
     , split
     , timeit
     , vector
@@ -70,6 +72,7 @@ executable AoC-exe
     , base >=4.7 && <5
     , containers
     , mtl
+    , multiset
     , split
     , timeit
     , vector
@@ -88,6 +91,7 @@ test-suite AoC-test
     , base >=4.7 && <5
     , containers
     , mtl
+    , multiset
     , split
     , timeit
     , vector
