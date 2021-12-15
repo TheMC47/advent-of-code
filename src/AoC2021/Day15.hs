@@ -8,7 +8,7 @@ import           Data.Functor.Identity
 import qualified Data.Map                      as M
 import           Data.Matrix
 import           Data.Maybe
-import           Data.PSQueue
+import           Data.PSQueue            hiding ( foldl )
 import qualified Data.Set                      as S
 import           Miloud
 import           Prelude                 hiding ( lookup )
@@ -115,18 +115,11 @@ wrapRisk n | n <= 9    = n
            | otherwise = n `mod` 9
 
 fullCave :: Cave -> Cave
-fullCave c =
-    let r =
-            c
-                <|> duplicateCave 1 c
-                <|> duplicateCave 2 c
-                <|> duplicateCave 3 c
-                <|> duplicateCave 4 c
-    in  r
-            <-> duplicateCave 1 r
-            <-> duplicateCave 2 r
-            <-> duplicateCave 3 r
-            <-> duplicateCave 4 r
+fullCave c = foldl addCol r [1..4]
+  where
+    addRow x n = x <|> duplicateCave n c
+    r = foldl addRow c [1 .. 4]
+    addCol x n = x <-> duplicateCave n r
 
 day15_2 :: String -> String
 day15_2 = show . solve . fullCave . parseInput
