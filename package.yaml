@@ -27,6 +27,8 @@ dependencies:
 - timeit
 - mtl
 - multiset
+- matrix
+- PSQueue
 
 library:
   source-dirs: src
