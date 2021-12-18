@@ -11,6 +11,9 @@ headMaybe (x : _) = Just x
 xs <!!> i | i < length xs = Just $ xs !! i
           | otherwise     = Nothing
 
+fst3 :: (a, b, c) -> a
+fst3 (a, b, c) = a
+
 uncurry3 :: (a -> b -> c -> d) -> (a, b, c) -> d
 uncurry3 f (a, b, c) = f a b c
 
