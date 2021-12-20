@@ -7,7 +7,13 @@ import           AoC2021.Day11
 import           AoC2021.Day12
 import           AoC2021.Day13
 import           AoC2021.Day14
+import           AoC2021.Day15
+import           AoC2021.Day16
+import           AoC2021.Day17
+import           AoC2021.Day18
+import           AoC2021.Day19
 import           AoC2021.Day2
+import           AoC2021.Day20
 import           AoC2021.Day3
 import           AoC2021.Day4
 import           AoC2021.Day5
@@ -33,4 +39,10 @@ aoc2021 = AoC
   , [day12_1, day12_2]
   , [day13_1, day13_2]
   , day14s
+  , [day15_1, day15_2]
+  , day16s
+  , [day17_1, day17_2]
+  , [day18_1, day18_2]
+  , [day19_1, day19_2]
+  , day20s
   ]
