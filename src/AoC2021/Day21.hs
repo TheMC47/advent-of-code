@@ -43,41 +43,41 @@ parseInput s = M.fromList [(P1, parsePoints p1), (P2, parsePoints p2)]
 r0 :: Positions -> Round1
 r0 = R players0 deterministic 0 $ M.fromList [(P1, 0), (P2, 0)]
 
-type Game1 = State Round1
+type Game = State Round1
 
-roll :: Game1 Int
+roll :: Game Int
 roll = do
     r@R { die, rolls } <- get
     put $ r { die = tail die, rolls = rolls + 1 }
     return $ head die
 
-gameRound :: Game1 Bool
+gameRound :: Game Bool
 gameRound =
     replicateM 3 roll >>= moveForward . sum >> (>= 1000) <$> currentScore
 
-play :: Game1 ()
+play :: Game ()
 play = do
     won <- gameRound
     unless won $ do
         modify $ \r -> r { players = tail $ players r }
         play
 
-currentPlayer :: Game1 Player
+currentPlayer :: Game Player
 currentPlayer = gets (head . players)
 
-currentScore :: Game1 Score
+currentScore :: Game Score
 currentScore = do
     p <- currentPlayer
     gets (fromJust . M.lookup p . scores)
 
 
-moveForward :: Int -> Game1 ()
+moveForward :: Int -> Game ()
 moveForward n = do
     p <- currentPlayer
     modify $ \r -> r { positions = M.adjust (wrap . (+ n)) p (positions r) }
     updateScore
 
-updateScore :: Game1 ()
+updateScore :: Game ()
 updateScore = do
     p   <- currentPlayer
     pos <- gets (fromJust . M.lookup p . positions)
@@ -96,14 +96,6 @@ deterministicGame ps = rolls * fromJust (M.lookup loser scores)
 
 day21_1 :: String -> String
 day21_1 = show . deterministicGame . parseInput
-
-data Round' = R'
-    { players'   :: [Player]
-    , scores'    :: Scores
-    , positions' :: Positions
-    }
-    deriving Show
-
 
 play' :: Positions -> (Integer, Integer)
 play' ps = dp V.! 0 V.! pos1_0 V.! pos2_0 V.! 0 V.! 0
