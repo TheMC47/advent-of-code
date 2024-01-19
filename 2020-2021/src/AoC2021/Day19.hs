@@ -2,6 +2,7 @@ module AoC2021.Day19 where
 
 import           Control.Arrow
 import           Control.Monad
+import           Data.Either
 import           Data.List
 import           Data.List.Split
 import           Data.Maybe
@@ -63,7 +64,6 @@ mkTransform :: Point -> Point -> Transform
 mkTransform (x1, y1, z1) (x2, y2, z2) (x', y', z') =
     (x' + (x1 - x2), y' + (y1 - y2), z' + (z1 - z2))
 
-
 match :: Scanner -> Scanner -> Maybe Scanner
 match (Sc centers bs) (Sc centers' bs') =
     case join . find isJust $ map matches ts of
@@ -82,6 +82,38 @@ match (Sc centers bs) (Sc centers' bs') =
             common = bs `S.intersection` bst
         in  if S.size common >= 12 then Just (bst, t . st) else Nothing
 
+match' :: Scanner -> Scanner -> Either Scanner Scanner
+match' (Sc centers bs) (Sc centers' bs') =
+    case join . find isJust $ map matches ts of
+        Just (bst, t) -> Right $ Sc (map (second t) centers') bst
+        Nothing       -> Left $ Sc centers' bs'
+  where
+    ts =
+        [ (mkTransform b (st b'), st)
+        | b  <- S.elems bs
+        , b' <- S.elems bs'
+        , st <- rotations
+        ]
+    matches (t, st) =
+        let bst    = S.map (t . st) bs'
+            common = bs `S.intersection` bst
+        in  if S.size common >= 12 then Just (bst, t . st) else Nothing
+
+matchOne' :: Scanner -> [Scanner] -> Maybe [Scanner]
+matchOne' ref ss =
+    let (unmatched, matched) = partitionEithers $ map (match' ref) ss
+    -- in  Just [unify ref matched]
+    in  case matched of
+            [] -> Nothing
+            _  -> Just $ unmatched <> [unify ref matched]
+
+unify :: Scanner -> [Scanner] -> Scanner
+unify = foldl' go
+  where
+    go (Sc centers bs) (Sc centers' bs') =
+        Sc (centers <> centers') (S.union bs bs')
+
+
 matchOne :: Scanner -> [Scanner] -> Maybe [Scanner]
 matchOne ref []       = Nothing
 matchOne ref (s : ss) = case match ref s of
@@ -94,8 +126,15 @@ matchAll (s : ss) = case matchOne s ss of
     Nothing -> matchAll $ s : matchAll ss
     Just s' -> matchAll s'
 
+matchAll' :: [Scanner] -> [Scanner]
+matchAll' [s     ] = [s]
+matchAll' (s : ss) = case matchOne' s ss of
+    Nothing -> matchAll' $ s : matchAll' ss
+    Just s' -> matchAll' s'
+
 day19_1 :: String -> String
-day19_1 = show . S.size . beacons . head . matchAll . parseInput
+-- day19_1 = show . S.size . beacons . head . matchAll' . parseInput
+day19_1 = show . matchAll . parseInput
 
 maxDistances :: [Point] -> Int
 maxDistances bs = maximum [ dist b1 b2 | b1 <- bs, b2 <- bs ]
@@ -105,4 +144,4 @@ dist (x, y, z) (x', y', z') = abs (x - x') + abs (y - y') + abs (z - z')
 
 day19_2 :: String -> String
 day19_2 =
-    show . maxDistances . map snd . centers . head . matchAll . parseInput
+    show . maxDistances . map snd . centers . head . matchAll' . parseInput

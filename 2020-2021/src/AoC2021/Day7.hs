@@ -19,3 +19,10 @@ solve f xs =
 
 day7 :: (Int -> Int) -> String -> String
 day7 f = show . solve f . map read . splitOn ","
+
+
+alignAt' :: Int -> [Int] -> Int
+alignAt' n = sum . map (abs . subtract n)
+
+solve' :: ([Int] -> Int) -> [Int] -> Int
+solve' f = liftM2 alignAt' f id

@@ -83,6 +83,16 @@ allPaths = fst . liftM2 runDFS visit singleton "start"
 
 day12_1 :: String -> String
 day12_1 = show . length . allPaths . parseInput
+
+
+-- Part 2
+-- PS: The code above could be adapted to work for both parts,
+-- but it'll probably mean that the set of seen vertices
+-- can't be shared, so the monad wouldn't be that helpful.
+-- I'd keep it as is, since it's cool.
+--
+-- TODO generalize?
+
 type Seen' = M.Map Node Int
 
 see' :: Node -> Seen' -> Seen'

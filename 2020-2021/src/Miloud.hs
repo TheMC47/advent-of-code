@@ -17,6 +17,15 @@ fst3 (a, b, c) = a
 uncurry3 :: (a -> b -> c -> d) -> (a, b, c) -> d
 uncurry3 f (a, b, c) = f a b c
 
+uncurry4 :: (a -> b -> c -> d -> e) -> (a, b, c, d) -> e
+uncurry4 f (a, b, c, d) = f a b c d
+
+unlist4 :: [a] -> (a, a, a, a)
+unlist4 [a, b, c, d] = (a, b, c, d)
+
+unlist8 :: [a] -> (a, a, a, a, a, a, a, a)
+unlist8 [a, b, c, d, e, f, g, h] = (a, b, c, d, e, f, g, h)
+
 (.:) :: (b -> c) -> (a1 -> a2 -> b) -> a1 -> a2 -> c
 (.:) = (.) . (.)
 
