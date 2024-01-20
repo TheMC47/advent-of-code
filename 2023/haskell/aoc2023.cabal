@@ -58,7 +58,8 @@ library
     import:           warnings
 
     -- Modules exported by the library.
-    exposed-modules:  Day1
+    exposed-modules:  Day1,
+                      Day2
 
     -- Modules included in this library but not exported.
     -- other-modules:
@@ -67,7 +68,8 @@ library
     -- other-extensions:
 
     -- Other library packages from which modules are imported.
-    build-depends:    base ^>=4.17.2.1
+    build-depends:    base ^>=4.17.2.1,
+                      split
 
     -- Directories containing source files.
     hs-source-dirs:   src
@@ -127,3 +129,4 @@ test-suite aoc2023-test
         tasty >= 1.5,
         tasty-hunit,
         aoc2023,
+        raw-strings-qq
