@@ -99,7 +99,7 @@ executable aoc2023
     -- Base language which the package is written in.
     default-language: Haskell2010
 
-test-suite haskell-test
+test-suite aoc2023-test
     -- Import common warning flags.
     import:           warnings
 
@@ -124,4 +124,6 @@ test-suite haskell-test
     -- Test dependencies.
     build-depends:
         base ^>=4.17.2.1,
-        haskell
+        tasty >= 1.5,
+        tasty-hunit,
+        aoc2023,
