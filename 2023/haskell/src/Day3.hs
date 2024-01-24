@@ -79,7 +79,6 @@ part1 = show . solve1 . parseGrid
 
 part2 :: String -> String
 part2 inp = show $ sumRatios (0, 0) 0
--- part2 inp = sumRatios' (1, 3) 0
   where
     g = parseGrid inp
     cache = buildCache (0, 0) M.empty
