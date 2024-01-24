@@ -58,8 +58,10 @@ library
     import:           warnings
 
     -- Modules exported by the library.
-    exposed-modules:  Day1,
-                      Day2
+    exposed-modules:
+      Day1,
+      Day2,
+      Day3
 
     -- Modules included in this library but not exported.
     -- other-modules:
@@ -69,7 +71,8 @@ library
 
     -- Other library packages from which modules are imported.
     build-depends:    base ^>=4.17.2.1,
-                      split
+                      split,
+                      containers
 
     -- Directories containing source files.
     hs-source-dirs:   src
@@ -109,7 +112,8 @@ test-suite aoc2023-test
     default-language: Haskell2010
 
     -- Modules included in this executable, other than Main.
-    -- other-modules:
+    other-modules:
+        Tests
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -121,12 +125,16 @@ test-suite aoc2023-test
     hs-source-dirs:   test
 
     -- The entrypoint to the test suite.
-    main-is:          Main.hs
+    main-is:          Driver.hs
+    build-tool-depends:
+        tasty-discover:tasty-discover
+
 
     -- Test dependencies.
     build-depends:
         base ^>=4.17.2.1,
-        tasty >= 1.5,
-        tasty-hunit,
         aoc2023,
-        raw-strings-qq
+        raw-strings-qq,
+        tasty >= 1.5,
+        containers,
+        tasty-hunit
