@@ -94,7 +94,7 @@ part2 inp = show $ sumRatios (0, 0) 0
                 validCoords = filter (\c -> maybe False isDigit (g @ c)) coords
                 nextC = next g coord
                 filterCoords [] = []
-                filterCoords [x] = [x]
+                filterCoords [a] = [a]
                 filterCoords ((x1, y1) : (x2, y2) : xs)
                     | x1 == x2 && y1 + 1 == y2 = filterCoords ((x2, y2) : xs)
                     | otherwise = (x1, y1) : filterCoords ((x2, y2) : xs)

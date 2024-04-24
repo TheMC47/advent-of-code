@@ -11,6 +11,8 @@ import qualified Day2 as D2
 import qualified Day3 as D3
 import qualified Day4 as D4
 import qualified Day5 as D5
+import qualified Day6 as D6
+import qualified Day7 as D7
 
 example2 :: String
 example2 =
@@ -57,6 +59,7 @@ test_day3 =
             ]
     g = D3.G dat 3 2
 
+example4 :: String
 example4 =
     [r|Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
 Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
@@ -68,6 +71,7 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11|]
 test_day4 :: [TestTree]
 test_day4 = exampleTests example4 D4.part1 "13" D4.part2 "30"
 
+example5 :: String
 example5 =
     [r|seeds: 79 14 55 13
 
@@ -107,6 +111,18 @@ test_day5 :: [TestTree]
 test_day5 =
     exampleTests example5 D5.part1 "35" D5.part2 "46"
 
+example6 :: String
+example6 =
+    [r|Time:      7  15   30
+Distance:  9  40  200|]
+
+replTests :: [TestTree] -> IO ()
+replTests = defaultMain . testGroup "Tests"
+
+-- T.defaultMain $ T.testGroup "Tests" Tests.test_day6
+test_day6 :: [TestTree]
+test_day6 = exampleTests example6 D6.part1 "288" D6.part2 "71503"
+
 exampleTests :: String -> (String -> String) -> String -> (String -> String) -> String -> [TestTree]
 exampleTests i p1 s1 p2 s2 =
     [ testCase "part1 Example" $
@@ -114,3 +130,18 @@ exampleTests i p1 s1 p2 s2 =
     , testCase "part2 Example" $
         p2 i @?= s2
     ]
+
+example7 :: String
+example7 =
+    [r|32T3K 765
+T55J5 684
+KK677 28
+KTJJT 220
+QQQJA 483|]
+
+test_day7 :: [TestTree]
+test_day7 = exampleTests example7 D7.part1 "6440" D7.part2 "5905"
+
+
+watchTest :: IO ()
+watchTest = replTests test_day7

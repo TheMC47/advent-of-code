@@ -49,4 +49,5 @@ play g = play' m g 1
             play' copies' cs (idx + 1)
     play' copies [] _ = sum $ M.elems copies
 
+part2 :: String -> String
 part2 = show . play . parseInput
