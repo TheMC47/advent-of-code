@@ -71,8 +71,6 @@ classifyHand hand = case handPart hand of
       where
         jokerCount = length . filter ((== 'J') . c) $ h
 
--- $> Day7.classifyHand . Day7.parseHand Day7.Two $ "KTJJT"
-
 instance Ord Hand where
     h1 `compare` h2 = case classifyHand h1 `compare` classifyHand h2 of
         EQ -> cards h1 `compare` cards h2
