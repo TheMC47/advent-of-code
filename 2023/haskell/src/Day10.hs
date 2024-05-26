@@ -3,6 +3,7 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 
 {-# HLINT ignore "Redundant multi-way if" #-}
+{-# OPTIONS_GHC -Wno-incomplete-uni-patterns #-}
 
 module Day10 (
     part1,
