@@ -5,6 +5,7 @@ module Main where
 
 import qualified Day1 as D1
 import qualified Day10 as D10
+import qualified Day11 as D11
 import qualified Day2 as D2
 import qualified Day3 as D3
 import qualified Day4 as D4
@@ -43,6 +44,7 @@ aoc =
         , (D8.part1, D8.part2)
         , (D9.part1, D9.part2)
         , (D10.part1, D10.part2)
+        , (D11.part1, D11.part2)
         ]
 
 main :: IO ()
