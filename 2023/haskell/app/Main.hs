@@ -4,6 +4,7 @@
 module Main where
 
 import qualified Day1 as D1
+import qualified Day10 as D10
 import qualified Day2 as D2
 import qualified Day3 as D3
 import qualified Day4 as D4
@@ -11,7 +12,7 @@ import qualified Day5 as D5
 import qualified Day6 as D6
 import qualified Day7 as D7
 import qualified Day8 as D8
-
+import qualified Day9 as D9
 import System.Environment
 import System.Exit (exitFailure)
 import System.IO (IOMode (ReadMode), hGetContents, openFile)
@@ -40,6 +41,8 @@ aoc =
         , (D6.part1, D6.part2)
         , (D7.part1, D7.part2)
         , (D8.part1, D8.part2)
+        , (D9.part1, D9.part2)
+        , (D10.part1, D10.part2)
         ]
 
 main :: IO ()
