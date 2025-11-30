@@ -24,7 +24,8 @@ library
       Day8,
       Day9,
       Day10,
-      Day11
+      Day11,
+      Day12
 
     build-depends:    base ^>=4.17.2.1,
                       split,
@@ -88,7 +89,8 @@ test-suite dev
         Day8,
         Day9,
         Day10,
-        Day11
+        Day11,
+        Day12
     build-depends:
         base ^>=4.17.2.1,
         -- lib
