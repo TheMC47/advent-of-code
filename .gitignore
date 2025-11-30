@@ -3,3 +3,5 @@ dist-newstyle/
 .projectile
 TAGS
 *~
+build
+.cache
