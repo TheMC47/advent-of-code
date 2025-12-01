@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.23)
 
 project(AoC2025)
 
-set(CMAKE_CXX_STANDARD "20")
+set(CMAKE_CXX_STANDARD "23")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 macro(add_day day)
