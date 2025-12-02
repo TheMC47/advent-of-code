@@ -1,5 +1,4 @@
 #include <format>
-#include <fstream>
 #include <iostream>
 #include <optional>
 #include <ostream>
@@ -7,8 +6,8 @@
 #include <string>
 #include <string_view>
 #include <system_error>
-#include <unordered_map>
-#include <unordered_set>
+#include <utils/cli.h>
+#include <utils/file.h>
 #include <vector>
 
 template <typename T> int sgn(T val) { return (T(0) < val) - (val < T(0)); }
@@ -54,75 +53,6 @@ solve(const std::vector<std::string> &lines) {
   }
   return {std::to_string(password1), std::to_string(password2)};
 }
-
-std::string readFile(std::string_view path) {
-  std::ifstream file{std::string(path)};
-  if (!file.is_open()) {
-    throw std::runtime_error("Could not open file");
-  }
-  return std::string{std::istreambuf_iterator<char>(file),
-                     std::istreambuf_iterator<char>()};
-}
-
-std::vector<std::string> readFileLines(std::string_view path) {
-  std::ifstream file{std::string(path)};
-  if (!file.is_open()) {
-    throw std::runtime_error("Could not open file");
-  }
-
-  std::vector<std::string> lines;
-  std::string line;
-  while (std::getline(file, line)) {
-    lines.push_back(line);
-  }
-  return lines;
-}
-
-class CLIArguments {
-private:
-  std::unordered_map<std::string_view, std::string_view> options{};
-  std::unordered_set<std::string_view> flags{};
-  std::vector<std::string_view> positionals{};
-
-public:
-  CLIArguments(int argc, char *argv[]) {
-    for (int i = 1; i < argc; i++) {
-      const std::string_view currStr{argv[i]};
-
-      if (currStr[0] != '-') {
-        positionals.push_back(currStr);
-        continue;
-      }
-
-      const int nextIdx = i + 1;
-      if (nextIdx == argc) {
-        flags.emplace(currStr);
-        continue;
-      }
-      const std::string_view nextStr{argv[nextIdx]};
-      if (nextStr[0] == '-') {
-        continue;
-      }
-      options.emplace(currStr, nextStr);
-      i++;
-    }
-  }
-
-  std::optional<std::string_view> getOpt(std::string_view opt) {
-    const auto it = options.find(opt);
-    if (it == options.end()) {
-      return std::nullopt;
-    }
-    return {it->second};
-  }
-
-  std::optional<std::string_view> getPositional(int idx) {
-    if (idx >= positionals.size() || idx < 0) {
-      return std::nullopt;
-    }
-    return {positionals[idx]};
-  }
-};
 
 int main(int argc, char *argv[]) {
   auto usage = [argv]() {
