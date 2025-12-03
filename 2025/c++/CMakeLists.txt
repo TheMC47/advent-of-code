@@ -4,7 +4,7 @@ project(AoC2025)
 
 set(CMAKE_CXX_STANDARD "26")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_CXX_FLAGS "-O2 -g")
+set(CMAKE_CXX_FLAGS "-O2")
 
 add_library(utils)
 target_sources(
