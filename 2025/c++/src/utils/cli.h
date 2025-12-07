@@ -15,5 +15,7 @@ public:
 
   std::optional<std::string_view> getOpt(std::string_view opt);
 
+  bool hasFlag(std::string_view opt);
+
   std::optional<std::string_view> getPositional(int idx);
 };

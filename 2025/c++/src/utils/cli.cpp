@@ -21,6 +21,7 @@ CLIArguments::CLIArguments(int argc, char *argv[]) {
     }
     const std::string_view nextStr{argv[nextIdx]};
     if (nextStr[0] == '-') {
+      flags.emplace(currStr);
       continue;
     }
     options.emplace(currStr, nextStr);
@@ -40,4 +41,8 @@ std::optional<std::string_view> CLIArguments::getPositional(int idx) {
     return std::nullopt;
   }
   return {positionals[idx]};
+}
+
+bool CLIArguments::hasFlag(std::string_view flag) {
+  return flags.find(flag) != flags.end();
 }
