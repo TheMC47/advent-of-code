@@ -5,6 +5,7 @@
 #include <format>
 #include <functional>
 #include <iostream>
+#include <numeric>
 #include <print>
 #include <queue>
 #include <ranges>
@@ -13,6 +14,7 @@
 #include <utils/cli.h>
 #include <utils/file.h>
 #include <vector>
+#include <z3++.h>
 
 namespace rv = std::ranges::views;
 namespace r = std::ranges;
@@ -111,58 +113,53 @@ std::uint64_t solve1(std::vector<Machine> &machines) {
   return result;
 }
 
-template <> struct std::hash<std::vector<uint64_t>> {
-  std::size_t operator()(std::vector<uint64_t> const &vec) const {
-    std::size_t seed = vec.size();
-    for (auto &i : vec) {
-      seed ^= i + 0x9e3779b9 + (seed << 6) + (seed >> 2);
-    }
-    return seed;
-  }
-};
+std::uint64_t solve2Machine(const Machine &m) {
+  z3::context ctx;
+  z3::optimize opt(ctx);
 
-std::vector<uint64_t> jolt(const std::vector<uint64_t> &current,
-                           const std::vector<std::uint64_t> &button) {
-  std::vector<uint64_t> ret = current;
-  for (const auto &b : button) {
-    ret[b]++;
+  const auto nButtons = m.buttons.size();
+
+  std::vector<z3::expr> buttonVars;
+  buttonVars.reserve(nButtons);
+
+  for (int i = 0; i < nButtons; ++i) {
+    buttonVars.emplace_back(
+        ctx.int_const(("x" + std::to_string(i + 1)).c_str()));
   }
-  return ret;
+
+  for (const auto &bi : buttonVars) {
+    opt.add(bi >= 0);
+  }
+
+  for (int i = 0; i < m.joltage.size(); i++) {
+    z3::expr sum = ctx.int_val(0);
+    for (const auto &[idx, button] : m.buttons | rv::enumerate) {
+      if (r::contains(button, i)) {
+        sum = sum + buttonVars[idx];
+      }
+    }
+    opt.add(sum == ctx.int_val(m.joltage[i]));
+  }
+  z3::expr objective = ctx.int_val(0);
+  for (const auto &xi : buttonVars) {
+    objective = objective + xi;
+  }
+  opt.minimize(objective);
+
+  if (opt.check() != z3::sat) {
+    std::cout << "No solution\n";
+    return 0;
+  }
+  z3::model model = opt.get_model();
+  return r::fold_left(buttonVars | rv::transform([&model](const auto &b) {
+                        return model.eval(b).get_numeral_uint64();
+                      }),
+                      0, std::plus<std::uint64_t>());
 }
 
 std::uint64_t solve2(std::vector<Machine> &machines) {
-  std::uint64_t result = 0;
-  for (auto &m : machines) {
-    std::unordered_set<std::vector<std::uint64_t>> seen;
-    std::queue<std::pair<std::vector<std::uint64_t>, std::uint64_t>> queue;
-
-    std::vector<std::uint64_t> v(m.joltage.size(), 0);
-    queue.push({v, 0});
-    seen.insert(v);
-
-    while (!queue.empty()) {
-      auto const [currentState, numSwitches] = queue.front();
-      if (currentState == m.joltage) {
-        result += numSwitches;
-        break;
-      }
-      queue.pop();
-      for (const auto &button : m.buttons) {
-        const auto nextState = jolt(currentState, button);
-
-        const auto valid = r::all_of(nextState | rv::enumerate, [&m](auto x) {
-          const auto [i, joltageI] = x;
-          return joltageI <= m.joltage[i];
-        });
-
-        if (valid && !seen.contains(nextState)) {
-          seen.insert(nextState);
-          queue.push({nextState, numSwitches + 1});
-        }
-      }
-    }
-  }
-  return result;
+  return r::fold_left(machines | rv::transform(solve2Machine), 0,
+                      std::plus<std::uint64_t>());
 }
 
 int main(int argc, char *argv[]) {

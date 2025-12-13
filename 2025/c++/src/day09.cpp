@@ -46,9 +46,48 @@ std::int64_t solve1(std::vector<point> input) {
 
 bool intersects(const segment &a, const segment &b) { return false; }
 
-std::int64_t solve2(std::vector<point> inputs) {
+std::pair<point, point> corners(const point &a, const point &b) {
+  return {{a.first, b.second}, {b.first, a.second}};
+}
 
+bool isValid(const auto &ss, const auto &a, const auto &b) {
+  const auto [xmin, xmax] = std::minmax(a.first, b.first);
+  const auto [ymin, ymax] = std::minmax(a.second, b.second);
+  for (const auto &s : ss) {
+
+    const auto [sxmin, sxmax] =
+        std::minmax(std::get<0>(s).first, std::get<1>(s).first);
+
+    const auto [symin, symax] =
+        std::minmax(std::get<0>(s).second, std::get<1>(s).second);
+
+    if (sxmin == sxmax && (xmin < sxmin && sxmin < xmax) &&
+        ((symin <= ymin && ymin < symax) || (symin < ymax && ymax <= symax))) {
+      return false;
+    }
+    if (symin == symax && (ymin < symin && symin < ymax) &&
+        ((sxmin <= xmin && xmin < sxmax) || (sxmin < xmax && xmax <= sxmax))) {
+      return false;
+    }
+  }
+  return true;
+}
+
+std::int64_t solve2(std::vector<point> inputs) {
   int64_t result = 0;
+
+  const auto segments =
+      rv::zip(inputs, rv::concat(inputs | rv::drop(1), rv::single(inputs[0]))) |
+      r::to<std::vector>();
+
+  for (auto i = 0u; i < inputs.size(); i++) {
+    for (auto j = i + 1; j < inputs.size(); j++) {
+      const auto a = area(inputs[i], inputs[j]);
+      if (a > result && isValid(segments, inputs[i], inputs[j])) {
+        result = a;
+      }
+    }
+  }
 
   return result;
 }
